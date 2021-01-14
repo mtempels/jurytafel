@@ -6,3 +6,40 @@
     font-style: normal;
     font-display: swap;
 }
+
+.navy {
+    background-color: navy;
+}
+
+body {
+    overflow: hidden;
+}
+
+h2 {
+    font-family: 'The Led Display St';
+    font-size: 64px;
+    color: white;
+}
+
+h5 {
+    font-family: 'The Led Display St';
+    font-size: 256px;
+    color: #fdbf2f;
+
+}
+
+h3 {
+    font-family: 'The Led Display St';
+    font-size: 96px;
+    color: #fdbf2f;
+}
+
+.vertical-center {
+    min-height: 100%;
+    /* Fallback for browsers do NOT support vh unit */
+    min-height: 100vh;
+    /* These two lines are counted as one :-)       */
+
+    display: flex;
+    align-items: center;
+}

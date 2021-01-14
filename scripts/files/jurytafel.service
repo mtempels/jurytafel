@@ -1,8 +1,8 @@
 [Unit]
-Description=Bingo Server
+Description=Jurytafel Server
 
 [Service]
-ExecStart=#NODE_PATH#/bingo-server --conf /etc/bingo-server/config.json
+ExecStart=#NODE_PATH#/jurytafel --conf /etc/jurytafel/config.json
 # Lift file handle and proc limits
 LimitNOFILE=32768
 LimitNPROC=32768

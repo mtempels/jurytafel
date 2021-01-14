@@ -1,1 +1,1 @@
-Bingo!
+OA Jurytafel!

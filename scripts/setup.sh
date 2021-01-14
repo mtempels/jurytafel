@@ -7,7 +7,7 @@
 DIR=$(cd $(dirname "$0"); pwd)
 
 # Settings
-SVC="bingo-server"
+SVC="jurytafel"
 CONF_DIR="/etc/$SVC"
 LOG_DIR="/var/log/$SVC"
 FILE_SRC="$DIR/files"

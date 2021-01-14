@@ -1,28 +1,13 @@
 {
   "serviceSettings": {
-    "database": {
-      "host": "dexter.townsville.nl",
-      "port": 3306,
-      "user": "bingo",
-      "password": "snEThfdhDbC28fO4",
-      "database": "bingo",
-      "timezone": "Z",
-      "connectionLimit": 50
-    },
-    "express": {
-      "host": "0.0.0.0",
-      "port": 9443,
-      "serverType": "http",
-      "exposeCause": true,
-      "key": "/etc/letsencrypt/live/home.townsville.nl/privkey.pem",
-      "cert": "/etc/letsencrypt/live/home.townsville.nl/fullchain.pem",
-      "ca": "/etc/letsencrypt/live/home.townsville.nl/chain.pem",
-      "requestCert": false,
-      "rejectUnauthorized": true
-    }
+    "timeurl":"https://www.townsville.nl/oa/scorebord/time/",
+    "scoreurl":"https://www.townsville.nl/oa/scorebord/score/",
+    "shotclockurl":"https://www.townsville.nl/oa/shotclock/time/",
+    "home": "OA",
+    "guest": "KZ"
   },
   "logSettings": {
-    "name": "bingo-server",
+    "name": "jurytafel-server",
     "showName": true,
     "level": "debug",
     "levels": {
@@ -32,7 +17,7 @@
       "colorize": true
     },
     "file": {
-      "path": "/var/log/bingo-server/bingo-server.log",
+      "path": "/var/log/jurytafel/jurytafel-server.log",
       "rollingFile": {
         "maxSize": 10000000,
         "maxFiles": 20
