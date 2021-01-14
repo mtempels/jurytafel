@@ -1,0 +1,46 @@
+{
+  "serviceSettings": {
+    "database": {
+      "host": "dexter.townsville.nl",
+      "port": 3306,
+      "user": "bingo",
+      "password": "snEThfdhDbC28fO4",
+      "database": "bingo",
+      "timezone": "Z",
+      "connectionLimit": 50
+    },
+    "express": {
+      "host": "0.0.0.0",
+      "port": 9443,
+      "serverType": "http",
+      "exposeCause": true,
+      "key": "/etc/letsencrypt/live/home.townsville.nl/privkey.pem",
+      "cert": "/etc/letsencrypt/live/home.townsville.nl/fullchain.pem",
+      "ca": "/etc/letsencrypt/live/home.townsville.nl/chain.pem",
+      "requestCert": false,
+      "rejectUnauthorized": true
+    }
+  },
+  "logSettings": {
+    "name": "bingo-server",
+    "showName": true,
+    "level": "debug",
+    "levels": {
+      "json-rest-server": "debug"
+    },
+    "console": {
+      "colorize": true
+    },
+    "file": {
+      "path": "/var/log/bingo-server/bingo-server.log",
+      "rollingFile": {
+        "maxSize": 10000000,
+        "maxFiles": 20
+      }
+    },
+    "_syslog": {
+      "_host": "localhost",
+      "_port": 514
+    }
+  }
+}

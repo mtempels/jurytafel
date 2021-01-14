@@ -1,0 +1,39 @@
+{
+  "name": "bingo-server",
+  "version": "1.0.0",
+  "description": "Bingo Server",
+  "private": true,
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mtempels/bingo-server.git"
+  },
+  "author": "Matthijs Tempels <matthijs@townsville.nl>",
+  "license": "Copyright Townsville.nl",
+  "preferGlobal": true,
+  "bin": {
+    "bingo-server": "index.js"
+  },
+  "bugs": {
+    "url": "https://github.com/mtempels/bingo-server/issues"
+  },
+  "homepage": "https://github.com/mtempels/bingo-server#readme",
+  "dependencies": {
+    "async": "^2.6.1",
+    "express": "^4.17.1",
+    "moment": "^2.23.0",
+    "mysql": "^2.16.0",
+    "nconf": "0.10.0",
+    "socket.io": "^3.0.2",
+    "townsville-logger": "github:mtempels/townsville-logger"
+  },
+  "bundledDependencies": [
+    "townsville-logger",
+    "moment",
+    "nconf",
+    "async"
+  ],
+  "scripts": {
+    "setup": "scripts/setup.sh"
+  }
+}

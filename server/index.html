@@ -1,0 +1,144 @@
+<!doctype html>
+<html>
+
+<head>
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+  <link href="/public/stylesheet.css" rel="stylesheet">
+  <title>SCOREBORD!</title>
+  <style>
+    .navy {
+      background-color: navy;
+    }
+    h2 {
+      font-family: 'The Led Display St';
+      font-size: 64px;
+      color: white;
+    }
+
+    h5 {
+      font-family: 'The Led Display St';
+      font-size: 256px;
+      color: red;
+    }
+
+    h3 {
+      font-family: 'The Led Display St';
+      font-size: 96px;
+      color: red;
+    }
+
+    .vertical-center {
+      min-height: 100%;
+      /* Fallback for browsers do NOT support vh unit */
+      min-height: 100vh;
+      /* These two lines are counted as one :-)       */
+
+      display: flex;
+      align-items: center;
+    }
+  </style>
+
+</head>
+
+<body>
+  <div class="jumbotron vertical-center navy">
+    <div class="container">
+      <!-- If Needed Left and Right Padding in 'md' and 'lg' screen means use container class -->
+      <div class="row justify-content-center">
+        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 text-center">
+           &nbsp;
+        </div>
+        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 text-center">
+          <img src="/public/logo.png" width="400">
+        </div>
+        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 text-center">
+           &nbsp;
+        </div>
+      </div>
+      <div class="row justify-content-center">
+        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 text-center">
+          <h2 id="hometeam">OA</h2>
+        </div>
+        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 text-center">
+          &nbsp;
+        </div>
+        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 text-center">
+          <h2 id="guestteam">KZ</h2>
+        </div>
+      </div>
+      <div class="row justify-content-center">
+        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 text-center">
+          <h5 id="home">0</h5>
+        </div>
+        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 text-center">
+          <h5> - </h5>
+        </div>
+        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 text-center">
+          <h5 id="guest">0</h5>
+        </div>
+      </div>
+
+      <div class="row justify-content-center">
+        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 text-center">
+          <h2>TIJD</h2>
+        </div>
+        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 text-center">
+          <h2>Periode</h2>
+        </div>
+        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 text-center">
+          <h2>SCHOTKLOK</h2>
+        </div>
+      </div>
+
+      <div class="row justify-content-center">
+        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 text-center">
+          <h3 id="time">00:00</h3>
+        </div>
+        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 text-center">
+          <h3 id="period">0</h3>
+        </div>
+        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 text-center">
+          <h3 id="shotclock">0</h3>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <script>
+    
+    const zeroPad = (num, places) => String(num).padStart(places, '0')
+
+
+    $(function () {
+
+      
+
+      var socket = io();
+      socket.on('time message', function (data) {
+        $("#time").text(zeroPad(data.minute, 2) + ":" + zeroPad(data.second,2));
+        $("#period").text(data.period);
+      });
+
+      socket.on('teams message', function (data) {
+        $("#hometeam").text(data.home);
+        $("#guestteam").text(data.guest);
+      });
+
+      socket.on('score message', function (data) {
+        $("#home").text(data.home);
+        $("#guest").text(data.guest);
+      });
+      socket.on('shotclock message', function (data) {
+        $("#shotclock").text(data.time);
+      });
+    });
+
+    
+  </script>
+</body>
+
+</html>
