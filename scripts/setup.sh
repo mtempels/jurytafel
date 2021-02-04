@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Script to install the startup files for bingo-server
+# Script to install the startup files for main-server
 #
 
 # Get shell dir

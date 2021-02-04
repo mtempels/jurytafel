@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 /**
- * @fileOverview Main entry point of the bingo server
+ * @fileOverview Main entry point of the server
  * @name index.js
  * @author Matthijs Tempels <matthijs@townsville.nl>
  * @license Townsville.nl

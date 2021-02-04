@@ -1,5 +1,5 @@
 /**
- * @fileOverview Bingo Server
+ * @fileOverview Main Server
  * @name index.js
  * @author Matthijs Tempels <matthijs@townsville.nl>
  * @license Townsville.nl
