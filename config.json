@@ -3,8 +3,8 @@
     "timeurl":"https://www.townsville.nl/oa/scorebord/time/",
     "scoreurl":"https://www.townsville.nl/oa/scorebord/score/",
     "shotclockurl":"https://www.townsville.nl/oa/shotclock/time/",
-    "home": "OA",
-    "guest": "LDODK"
+    "home": "HOME",
+    "guest": "AWAY"
   },
   "logSettings": {
     "name": "jurytafel-server",
