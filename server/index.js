@@ -79,7 +79,7 @@ class Service {
     });
 
     http.listen(3000, () => {
-      console.log('listening on *:3000');
+      this._log.debug('listening on *:3000');
     });
 
     setInterval(() => {
@@ -99,7 +99,7 @@ class Service {
           }
         });
       }).on("error", (err) => {
-        console.log("Error: " + err.message);
+        this._log.error("Error: " + err.message);
       });
 
       client.get(settings.scoreurl, (resp) => {
@@ -118,7 +118,7 @@ class Service {
           }
         });
       }).on("error", (err) => {
-        console.log("Error: " + err.message);
+        this._log.error("Error: " + err.message);
       });
 
       client.get(settings.shotclockurl, (resp) => {
@@ -137,15 +137,10 @@ class Service {
           }
         });
       }).on("error", (err) => {
-        console.log("Error: " + err.message);
+        this._log.error("Error: " + err.message);
       });
       io.emit('teams message', { "home": settings.home, "guest": settings.guest });
     }, 200);
-
-
-
-
-
   }
 }
 

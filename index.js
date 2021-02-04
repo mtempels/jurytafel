@@ -26,7 +26,6 @@ function doUsageExit() {
   console.log(' options:');
   console.log(' --conf <json config file> (mandatory)');
   console.log(' --help');
-
   process.exit(1);
 }
 

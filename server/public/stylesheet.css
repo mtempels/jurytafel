@@ -25,7 +25,6 @@ h5 {
     font-family: 'The Led Display St';
     font-size: 256px;
     color: #fdbf2f;
-
 }
 
 h3 {
@@ -39,7 +38,6 @@ h3 {
     /* Fallback for browsers do NOT support vh unit */
     min-height: 100vh;
     /* These two lines are counted as one :-)       */
-
     display: flex;
     align-items: center;
 }
