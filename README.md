@@ -17,19 +17,19 @@ you also set the home and away teamname
 ```
 {
   "serviceSettings": {
-    "timeurl":"https://www.townsville.nl/oa/scorebord/time/",
-    "scoreurl":"https://www.townsville.nl/oa/scorebord/score/",
-    "shotclockurl":"https://www.townsville.nl/oa/shotclock/time/",
-    "home": "OA",
-    "guest": "LDODK"
+    "clientType": "https",
+    "timeURL": "https://www.townsville.nl/oa/scorebord/time/",
+    "scoreURL": "https://www.townsville.nl/oa/scorebord/score/",
+    "shotclockURL": "https://www.townsville.nl/oa/shotclock/time/",
+    "home": "THUIS",
+    "guest": "GAST",
+    "host": "0.0.0.0",
+    "port": 3000
   },
   "logSettings": {
     "name": "jurytafel-server",
     "showName": true,
     "level": "debug",
-    "levels": {
-      "json-rest-server": "debug"
-    },
     "console": {
       "colorize": true
     },
@@ -39,10 +39,6 @@ you also set the home and away teamname
         "maxSize": 10000000,
         "maxFiles": 20
       }
-    },
-    "_syslog": {
-      "_host": "localhost",
-      "_port": 514
     }
   }
 }
