@@ -8,13 +8,25 @@
 "use strict";
 
 const logger = require('townsville-logger');
+const util = require('util');
+
+//setup express
 const express = require('express');
+const bodyParser = require("body-parser");
+const router = express.Router();
 const app = express();
 const http = require('http').createServer(app);
+
 const io = require('socket.io')(http);
 const path = require('path');
-const client = require('https');
 
+const httpclient = require('http');
+const httpsclient = require('https');
+
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+app.engine('html', require('ejs').renderFile);
+app.set('view engine', 'html');
 
 /**
  * Main service class
@@ -25,9 +37,8 @@ class Service {
    * Class constructor
    * @param {object} settings Service settings
    */
-  constructor(settings) {
-
-    this._init(settings);
+  constructor(settings, nconf) {
+    this._init(settings, nconf);
   }
 
   /**
@@ -51,39 +62,74 @@ class Service {
    * @param {object} settings Settings object
    * @throws {Error} If settings are bad
    */
-  _init(settings) {
+  _init(settings, nconf) {
 
     // Sanity checks
     if (!settings) {
       throw new Error('Service requires a valid settings object');
     }
-    this._log = logger.createLogger('server');
+    this._log = logger.createLogger('jurytafel');
 
     // Setup express
 
     app.use('/public', express.static(path.join(__dirname, 'public')));
 
     app.get('/', (req, res) => {
-      res.sendFile(__dirname + '/index.html');
+      res.render(__dirname + '/index.html', settings);
+    });
+
+    app.get('/admin', (req, res) => {
+      res.render(__dirname + '/admin.html', settings);
+    });
+
+    app.post('/admin', (req, res) => {
+      nconf.set("serviceSettings:clientType", req.body.clientType);
+      nconf.set("serviceSettings:timeURL", req.body.timeURL);
+      nconf.set("serviceSettings:scoreURL", req.body.scoreURL);
+      nconf.set("serviceSettings:shotclockURL", req.body.shotclockURL);
+      nconf.set("serviceSettings:home", req.body.home);
+      nconf.set("serviceSettings:guest", req.body.guest);
+      nconf.set("serviceSettings:host", req.body.host);
+      nconf.set("serviceSettings:port", (1 * req.body.port));
+
+      settings.clientType = req.body.clientType
+      settings.timeURL = req.body.timeURL
+      settings.scoreURL = req.body.scoreURL
+      settings.shotclockURL = req.body.shotclockURL
+      settings.home = req.body.home
+      settings.guest = req.body.guest
+      settings.host = req.body.host
+      settings.port = (1 * req.body.port)
+
+      nconf.save((err) => {
+        res.render(__dirname + '/saved.html', settings);
+      });
     });
 
     io.on('connection', (socket) => {
-      this._log.debug('a user connected');
       socket.emit('teams message', { "home": settings.home, "guest": settings.guest });
       socket.emit('time message', { "status": "OK", "second": 0, "period": 0, "minute": 0 });
       socket.emit('score message', { "status": "OK", "home": 0, "guest": 0 });
       socket.emit('shotclock message', { "status": "OK", "time": 0 });
-      socket.on('disconnect', () => {
-        this._log.debug('a user disconnected');
-      });
     });
 
-    http.listen(3000, () => {
-      this._log.debug('listening on *:3000');
+    http.listen(settings.port, settings.host, () => {
+      this._log.debug(util.format('listening on %s:%s', settings.host, settings.port));
     });
+
+    // pick the right client
+    var client;
+    if (settings.clientType == "http") {
+      client = httpclient;
+    } else if (settings.clientType == "https") {
+      client = httpsclient;
+    } else {
+      this._log.error("invalid clientType in config");
+      process.exit(1);
+    }
 
     setInterval(() => {
-      client.get(settings.timeurl, (resp) => {
+      client.get(settings.timeURL, (resp) => {
         let data = '';
         resp.on('data', (chunk) => {
           data += chunk;
@@ -102,7 +148,7 @@ class Service {
         this._log.error("Error: " + err.message);
       });
 
-      client.get(settings.scoreurl, (resp) => {
+      client.get(settings.scoreURL, (resp) => {
         let data = '';
         resp.on('data', (chunk) => {
           data += chunk;
@@ -121,7 +167,7 @@ class Service {
         this._log.error("Error: " + err.message);
       });
 
-      client.get(settings.shotclockurl, (resp) => {
+      client.get(settings.shotclockURL, (resp) => {
         let data = '';
         resp.on('data', (chunk) => {
           data += chunk;

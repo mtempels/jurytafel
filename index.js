@@ -44,8 +44,7 @@ function handleCommandLine() {
   // Check config file
   let path = nconf.get('conf');
   if (!fs.existsSync(path)) {
-    console.log(util.format('Config file "%s" not found',
-      path));
+    console.log(util.format('Config file "%s" not found', path));
     doUsageExit();
   }
 
@@ -106,7 +105,7 @@ handleCommandLine();
 logger.init(nconf.get('logSettings'));
 log = logger.createLogger('index');
 log.info('Application V%s started', getVersion());
-
+log.info(nconf.get('conf'));
 // Instantiate service
-inst = new Service(nconf.get('serviceSettings'));
+inst = new Service(nconf.get('serviceSettings'), nconf);
 inst.run();

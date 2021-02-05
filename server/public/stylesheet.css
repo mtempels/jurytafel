@@ -25,6 +25,19 @@ h5 {
     font-family: 'The Led Display St';
     font-size: 256px;
     color: #fdbf2f;
+    cursor: pointer;
+}
+
+a.nostyle:link {
+    text-decoration: inherit;
+    color: inherit;
+    cursor: auto;
+}
+
+a.nostyle:visited {
+    text-decoration: inherit;
+    color: inherit;
+    cursor: auto;
 }
 
 h3 {
