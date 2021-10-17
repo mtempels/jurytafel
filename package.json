@@ -27,7 +27,11 @@
     "mysql": "^2.16.0",
     "nconf": "^0.10.0",
     "socket.io": "^3.0.2",
-    "townsville-logger": "github:mtempels/townsville-logger"
+    "townsville-logger": "github:mtempels/townsville-logger",
+    "i2c-bus": "^5.2.2",
+    "oled-font-5x7": "^1.0.3",
+    "oled-i2c-bus": "^1.0.12",
+    "systeminformation": "^5.9.7"
   },
   "bundledDependencies": [
     "townsville-logger",

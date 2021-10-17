@@ -20,10 +20,28 @@ const http = require('http').createServer(app);
 const io = require('socket.io')(http);
 const path = require('path');
 
+const i2c = require('i2c-bus');
+const i2cBus = i2c.openSync(1);
+const oled = require('oled-i2c-bus');
+const si = require('systeminformation');
+
+const opts = {
+  width: 128,
+  height: 64,
+  address: 0x3C
+};
+
+const Oled = new oled(i2cBus, opts);
+
+
+
+
 const httpclient = require('http');
 const httpsclient = require('https');
 
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({
+  extended: false
+}));
 app.use(bodyParser.json());
 app.engine('html', require('ejs').renderFile);
 app.set('view engine', 'html');
@@ -63,6 +81,18 @@ class Service {
    * @throws {Error} If settings are bad
    */
   _init(settings, nconf) {
+
+    Oled.clearDisplay();
+    Oled.setCursor(1, 1);
+    si.networkInterfaceDefault((defaultif) => {
+      si.networkInterfaces((data) => {
+        data.forEach(element => {
+          if (element.iface === "defaultif") {
+            Oled.writeString(font, 1, "IP: " + element.ip4);
+          }
+        });
+      });
+    });
 
     // Sanity checks
     if (!settings) {
@@ -107,10 +137,25 @@ class Service {
     });
 
     io.on('connection', (socket) => {
-      socket.emit('teams message', { "home": settings.home, "guest": settings.guest });
-      socket.emit('time message', { "status": "OK", "second": 0, "period": 0, "minute": 0 });
-      socket.emit('score message', { "status": "OK", "home": 0, "guest": 0 });
-      socket.emit('shotclock message', { "status": "OK", "time": 0 });
+      socket.emit('teams message', {
+        "home": settings.home,
+        "guest": settings.guest
+      });
+      socket.emit('time message', {
+        "status": "OK",
+        "second": 0,
+        "period": 0,
+        "minute": 0
+      });
+      socket.emit('score message', {
+        "status": "OK",
+        "home": 0,
+        "guest": 0
+      });
+      socket.emit('shotclock message', {
+        "status": "OK",
+        "time": 0
+      });
     });
 
     http.listen(settings.port, settings.host, () => {
@@ -185,7 +230,10 @@ class Service {
       }).on("error", (err) => {
         this._log.error("Error: " + err.message);
       });
-      io.emit('teams message', { "home": settings.home, "guest": settings.guest });
+      io.emit('teams message', {
+        "home": settings.home,
+        "guest": settings.guest
+      });
     }, 200);
   }
 }
