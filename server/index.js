@@ -20,24 +20,10 @@ const http = require('http').createServer(app);
 const io = require('socket.io')(http);
 const path = require('path');
 
-const i2c = require('i2c-bus');
-const i2cBus = i2c.openSync(1);
-const oled = require('oled-i2c-bus');
-const si = require('systeminformation');
-
-const opts = {
-  width: 128,
-  height: 64,
-  address: 0x3C
-};
-
-const Oled = new oled(i2cBus, opts);
-
-
-
-
 const httpclient = require('http');
 const httpsclient = require('https');
+
+const zeroPad = (num, places) => String(num).padStart(places, '0');
 
 app.use(bodyParser.urlencoded({
   extended: false
@@ -81,18 +67,6 @@ class Service {
    * @throws {Error} If settings are bad
    */
   _init(settings, nconf) {
-
-    Oled.clearDisplay();
-    Oled.setCursor(1, 1);
-    si.networkInterfaceDefault((defaultif) => {
-      si.networkInterfaces((data) => {
-        data.forEach(element => {
-          if (element.iface === "defaultif") {
-            Oled.writeString(font, 1, "IP: " + element.ip4);
-          }
-        });
-      });
-    });
 
     // Sanity checks
     if (!settings) {
